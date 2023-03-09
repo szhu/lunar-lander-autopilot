@@ -1371,16 +1371,17 @@ const makeAudioManager = () => {
     if (!hasInitialized) {
       hasInitialized = true;
       audioCTX = new AudioContext();
-      engineFileBuffer = _loadFile(audioCTX, "./audio/engine.mp3");
-      boosterFileBuffer = _loadFile(audioCTX, "./audio/booster.mp3");
-      crash1FileBuffer = _loadFile(audioCTX, "./audio/crash1.mp3");
-      crash2FileBuffer = _loadFile(audioCTX, "./audio/crash2.mp3");
-      landing1FileBuffer = _loadFile(audioCTX, "./audio/landing1.mp3");
-      landing2FileBuffer = _loadFile(audioCTX, "./audio/landing2.mp3");
-      confetti1FileBuffer = _loadFile(audioCTX, "./audio/confetti1.mp3");
-      confetti2FileBuffer = _loadFile(audioCTX, "./audio/confetti2.mp3");
-      babyFileBuffer = _loadFile(audioCTX, "./audio/baby.mp3");
-      themeAudio = new Audio("./audio/theme.mp3");
+      let base = "https://ehmorris.com/lander/";
+      engineFileBuffer = _loadFile(audioCTX, base + "audio/engine.mp3");
+      boosterFileBuffer = _loadFile(audioCTX, base + "audio/booster.mp3");
+      crash1FileBuffer = _loadFile(audioCTX, base + "audio/crash1.mp3");
+      crash2FileBuffer = _loadFile(audioCTX, base + "audio/crash2.mp3");
+      landing1FileBuffer = _loadFile(audioCTX, base + "audio/landing1.mp3");
+      landing2FileBuffer = _loadFile(audioCTX, base + "audio/landing2.mp3");
+      confetti1FileBuffer = _loadFile(audioCTX, base + "audio/confetti1.mp3");
+      confetti2FileBuffer = _loadFile(audioCTX, base + "audio/confetti2.mp3");
+      babyFileBuffer = _loadFile(audioCTX, base + "audio/baby.mp3");
+      themeAudio = new Audio(base + "audio/theme.mp3");
       themeAudio.loop = true;
       themeAudio.play();
     }
