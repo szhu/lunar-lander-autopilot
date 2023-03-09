@@ -2,6 +2,16 @@
 // deno-lint-ignore-file
 // This code was bundled using `deno bundle` and it's not recommended to edit it manually
 
+const Stats = {
+  gameEndData: {},
+  angle: 0,
+  projectedAngle: 0,
+  rotationalVelocity: 0,
+  position: { x: 0, y: 0 },
+  velocity: { x: 0, y: 0 },
+  groundedHeight: 0,
+};
+
 const GRAVITY = 0.004;
 const LANDER_HEIGHT = 40;
 const CRASH_VELOCITY = 0.6;
@@ -441,6 +451,11 @@ const drawTrajectory = (
     if (index % 2) {
       CTX.lineTo(projectedXPosition - 20 / 2, projectedYPosition - 40 / 2);
     }
+    if (index === 2) {
+      let dy = projectedYPosition - currentPosition.y;
+      let dx = projectedXPosition - currentPosition.x;
+      Stats.projectedAngle = Math.atan(-dx / dy);
+    }
     index++;
   }
   CTX.strokeStyle = "rgb(255, 255, 255, .25)";
@@ -470,6 +485,7 @@ const makeLander = (state, onGameEnd, onResetXPos) => {
   const canvasHeight = state.get("canvasHeight");
   const _thrust = 0.01;
   const _groundedHeight = canvasHeight - 40 + 40 / 2;
+  Stats.groundedHeight = _groundedHeight;
   let _position;
   let _velocity;
   let _rotationVelocity;
@@ -506,7 +522,7 @@ const makeLander = (state, onGameEnd, onResetXPos) => {
     _engineOn = false;
     _rotatingLeft = false;
     _rotatingRight = false;
-    _gameEndData = false;
+    Stats.gameEndData = _gameEndData = false;
     _flipConfetti = [];
     _lastRotation = 1;
     _lastRotationAngle = Math.PI * 2;
@@ -523,7 +539,7 @@ const makeLander = (state, onGameEnd, onResetXPos) => {
   };
   resetProps();
   const _setGameEndData = (landed, timeSinceStart) => {
-    _gameEndData = {
+    Stats.gameEndData = _gameEndData = {
       landed,
       speed: velocityInMPH(_velocity),
       angle: getAngleDeltaUpright(_angle).toFixed(1),
@@ -649,6 +665,7 @@ const makeLander = (state, onGameEnd, onResetXPos) => {
       : Math.min(_position.x + 20 * 2, canvasWidth - textWidth);
     const yPosBasis = Math.max(_position.y, 30);
     const rotatingLeft = _rotationVelocity < 0;
+    Stats.rotationalVelocity = _rotationVelocity;
     const speedColor =
       getVectorVelocity(_velocity) > 0.6 ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)";
     const angleColor =
@@ -656,18 +673,22 @@ const makeLander = (state, onGameEnd, onResetXPos) => {
     CTX.save();
     CTX.fillStyle = speedColor;
     CTX.fillText(`${velocityInMPH(_velocity)} MPH`, xPosBasis, yPosBasis - 14);
+    Stats.position = _position;
+    Stats.velocity = _velocity;
     CTX.fillStyle = angleColor;
     CTX.fillText(
       `${getAngleDeltaUprightWithSign(_angle).toFixed(1)}°`,
       xPosBasis,
       yPosBasis
     );
+    Stats.angle = _angle;
     CTX.fillStyle = "#ffffff";
     CTX.fillText(
       `${heightInFeet(_position.y, _groundedHeight)} FT`,
       xPosBasis,
       yPosBasis + 14
     );
+    window.height = _position.y;
     CTX.restore();
     const arrowVerticalOffset = -3;
     if (rotatingLeft) {
@@ -750,7 +771,7 @@ const makeLander = (state, onGameEnd, onResetXPos) => {
   };
   const draw = (timeSinceStart) => {
     _updateProps(timeSinceStart);
-    if (!_engineOn && !_rotatingLeft && !_rotatingRight) {
+    if (true || (!_engineOn && !_rotatingLeft && !_rotatingRight)) {
       drawTrajectory(
         state,
         _position,
@@ -796,6 +817,7 @@ const makeToyLander = (
   const canvasHeight = state.get("canvasHeight");
   const _toyLanderWidth = Math.min(canvasWidth, canvasHeight) / 7;
   const _toyLanderHeight = _toyLanderWidth * 2;
+  Stats.landerHeight = _toyLanderHeight;
   const _toyLanderBoosterLengthMin = _toyLanderWidth / 4;
   const _toyLanderBoosterLengthMax = _toyLanderWidth * 1.25;
   const _toyLanderEngineLengthMin = _toyLanderHeight / 4;
@@ -1565,6 +1587,7 @@ const toyLander = makeToyLander(
   () => instructions.setRightRotationDone(),
   () => instructions.setEngineAndRotationDone()
 );
+window.lander = toyLander;
 const toyLanderControls = makeControls(appState, toyLander, audioManager);
 const lander = makeLander(appState, onGameEnd, onResetXPos);
 const landerControls = makeControls(appState, lander, audioManager);
