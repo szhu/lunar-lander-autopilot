@@ -1,3 +1,4 @@
+// @ts-check
 // deno-fmt-ignore-file
 // deno-lint-ignore-file
 // This code was bundled using `deno bundle` and it's not recommended to edit it manually
@@ -1279,6 +1280,7 @@ https://ehmorris.com/lander/`;
     resetMeter("angle");
     hideStats();
     detachEventListeners();
+    Autopilot.step();
   }
   populateStats(data);
   showStats();
@@ -1652,4 +1654,62 @@ document.addEventListener("keydown", ({ key }) => {
       })
     );
   }
+});
+
+const Turn = Math.PI * 2;
+function turnModulo(angleInTurns) {
+  return ((angleInTurns + 0.5) % 1) - 0.5;
+}
+
+const Autopilot = {
+  checkbox: /** @type {HTMLInputElement} */ (
+    document.querySelector("#autopilot")
+  ),
+  step() {
+    if (Stats.gameEndData || !Autopilot.checkbox.checked) {
+      return;
+    }
+
+    {
+      let angleInTurns = turnModulo(Stats.angle / Turn);
+      let projectedAngleInTurns = turnModulo(Stats.projectedAngle / Turn);
+
+      let angleDiff = turnModulo(angleInTurns - projectedAngleInTurns);
+
+      let targetAngularVelocity = -angleDiff * 5;
+      let angularVelocityDiff =
+        Stats.rotationalVelocity - targetAngularVelocity;
+
+      if (angularVelocityDiff < -0.01) {
+        lander.rotateRight();
+        lander.stopLeftRotation();
+      } else if (angularVelocityDiff > 0.01) {
+        lander.rotateLeft();
+        lander.stopRightRotation();
+      } else {
+        lander.stopLeftRotation();
+        lander.stopRightRotation();
+      }
+
+      let altitude =
+        Stats.groundedHeight - Stats.position.y + Stats.landerHeight;
+
+      let velocityFactor = Stats.velocity.y * 10;
+      let altitudeFactor = ((altitude + 40) / 200) ** 3;
+
+      console.log(velocityFactor.toFixed(2), altitudeFactor.toFixed(2));
+      if (velocityFactor > altitudeFactor && Math.abs(angleInTurns) < 0.2) {
+        lander.engineOn();
+      } else {
+        lander.engineOff();
+      }
+    }
+
+    window.requestAnimationFrame(Autopilot.step);
+  },
+};
+
+Autopilot.checkbox.addEventListener("click", () => {
+  Autopilot.checkbox.blur();
+  Autopilot.step();
 });
