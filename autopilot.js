@@ -63,12 +63,17 @@ const autopilot = {
       let altitude = landerStats.groundedHeight - landerStats.position.y;
 
       let velocity = landerStats.velocity.y;
-      let targetVelocity = clamp(
-        (150 / landerStats.landerHeight) ** 1.2 * 0.02 * (altitude / 3.5) +
-          0.03,
-        0,
-        altitude > 10 ? altitude / 160 : Infinity
-      );
+      let targetVelocity;
+      if (autopilot.algorithmImprovedCheckbox.checked) {
+        targetVelocity = (altitude / 160) ** 0.5;
+      } else {
+        targetVelocity = clamp(
+          (150 / landerStats.landerHeight) ** 1.2 * 0.02 * (altitude / 3.5) +
+            0.03,
+          0,
+          altitude > 10 ? altitude / 160 : Infinity
+        );
+      }
 
       let xVelocity = landerStats.velocity.x;
       let engineFacingOppositeOfXVelocity = false;
