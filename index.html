@@ -48,7 +48,9 @@
       #game-title {
         position: absolute;
         z-index: 1;
-        margin: 0px 10px;
+        margin: 4px 10px;
+        font-size: clamp(6px, 3vw, 18px);
+        -webkit-text-size-adjust: 100%;
       }
 
       #game-title > *,
@@ -91,7 +93,7 @@
       }
 
       #instructions {
-        padding-top: calc(8vmin + 40px);
+        padding-top: calc(8vmin + 90px);
       }
     </style>
   </head>
@@ -115,7 +117,16 @@
       </em>
       <div id="autopilot-hint">
         <span style="visibility: hidden">with au</span>
-        ▲ press here!
+        <span>👆 press here!</span>
+        <span style="display: inline-block; width: 8em"></span>
+
+        <span style="display: inline-block">
+          ✨
+          <a target="_blank" href="https://news.ycombinator.com/show"
+            >Discuss on HN</a
+          >
+          ✨
+        </span>
       </div>
     </div>
     <div class="game"></div>
