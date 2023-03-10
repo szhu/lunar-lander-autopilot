@@ -44,12 +44,66 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <style>
+      #game-title {
+        position: absolute;
+        z-index: 1;
+        margin: 0px 10px;
+      }
+
+      #game-title > *,
+      #game-title a {
+        display: block;
+      }
+
+      #game-title a {
+        color: unset;
+        text-decoration: unset;
+        display: inline-block;
+      }
+
+      #game-title a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      #autopilot {
+        display: none;
+      }
+
+      #autopilot + * {
+        text-shadow: 0 0 8px red, 0 0 14px red;
+      }
+
+      #autopilot:checked + * {
+        color: #aeffae;
+        text-shadow: 0 0 20px #8eff8e, 0 0 20px #8eff8e;
+      }
+
+      #instructions {
+        padding-top: calc(8vmin + 40px);
+      }
+    </style>
   </head>
   <body>
-    <label style="position: relative; z-index: 1">
-      <input type="checkbox" id="autopilot" tabindex="-1" />
-      <span>Autopilot</span>
-    </label>
+    <div id="game-title">
+      <a
+        target="_blank"
+        href="https://ehmorris.com/lander/"
+        style="font-weight: bold"
+        >Edwin Morris’s Lunar Lander</a
+      >
+      <em
+        >with
+        <label>
+          <input type="checkbox" id="autopilot" tabindex="-1" />
+          <a>autopilot</a></label
+        >
+        <a target="_blank" href="https://github.com/szhu/lunar-lander-autopilot"
+          >added by Sean Zhu</a
+        >
+      </em>
+    </div>
     <div class="game"></div>
     <div id="endGameStats" class="fullSizeContainer">
       <div>
@@ -135,7 +189,9 @@
             <li id="engineCheck">Up arrow</li>
             <li id="rightRotationCheck">Left arrow</li>
             <li id="leftRotationCheck">Right arrow</li>
-            <li id="engineAndRotationCheck">Hold the up arrow while pressing the left or right arrows</li>
+            <li id="engineAndRotationCheck">
+              Hold the up arrow while pressing the left or right arrows
+            </li>
           </ul>
         </div>
         <div id="forTouch">

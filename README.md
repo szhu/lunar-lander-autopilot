@@ -1,3 +1,21 @@
+<p align="center">
+
+<img width="500" alt="Edwin Morris’s Lunar Lander, with autopilot added by Sean Zhu" src="https://user-images.githubusercontent.com/1570168/224214709-8983622e-e70c-4c95-9ab2-4ca97ea21a51.png">
+
+</p>
+
+This is a fork of [ehmorris/lunar-lander](https://github.com/ehmorris/lunar-lander), with an autopilot added.
+
+Do you enjoy playing the lander game but think it's too hard? Or perhaps you want to get the satisfaction of landing well without actually doing any of the work?
+
+Let [~100 lines of autopilot code](./autopilot.js) perform a perfect landing for you every time!
+
+<https://user-images.githubusercontent.com/1570168/224213713-fb3ae806-d568-4df3-b837-66c66634d9a6.mov>
+
+---
+
+<details><summary>Expand to see <a href="ehmorris/https://github.com/ehmorris/lunar-lander">lunar-lander</a>'s README</summary>
+
 # About
 
 A plain JavaScript, HTML, and CSS game with no dependencies.
@@ -45,3 +63,5 @@ See `launch.json` for running.
   - On some screens the refresh rate is 120, on others 60. This changes the speed of play. The game is twice as fast on a new MacBook as on an iPhone. The animations are procedural, so to accomplish this, forces like thrust and gravity will have to be modified based on time elpased between frames. Unsure how to do this.
   - The gameplay target is the experience on a MacBook with a 120hz refresh rate. Phones could possibly be slower, or shorter screens in general - but this should be controlled and not incidental
 - iOS safari "from" banner cuts off bottom of canvas
+
+</details>
