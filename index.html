@@ -73,11 +73,21 @@
 
       #autopilot + * {
         text-shadow: 0 0 8px red, 0 0 14px red;
+        transition: text-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
       }
 
       #autopilot:checked + * {
         color: #aeffae;
         text-shadow: 0 0 20px #8eff8e, 0 0 20px #8eff8e;
+      }
+
+      #autopilot-hint {
+        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+      }
+
+      #autopilot-hint.hidden {
+        opacity: 0;
+        visibility: hidden;
       }
 
       #instructions {
@@ -103,6 +113,10 @@
           >added by Sean Zhu</a
         >
       </em>
+      <div id="autopilot-hint">
+        <span style="visibility: hidden">with au</span>
+        ▲ press here!
+      </div>
     </div>
     <div class="game"></div>
     <div id="endGameStats" class="fullSizeContainer">
