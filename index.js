@@ -1660,6 +1660,9 @@ const Turn = Math.PI * 2;
 function turnModulo(angleInTurns) {
   return ((angleInTurns + 0.5) % 1) - 0.5;
 }
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
 
 const Autopilot = {
   checkbox: /** @type {HTMLInputElement} */ (
@@ -1680,10 +1683,10 @@ const Autopilot = {
       let angularVelocityDiff =
         Stats.rotationalVelocity - targetAngularVelocity;
 
-      if (angularVelocityDiff < -0.01) {
+      if (angularVelocityDiff < -0.001) {
         lander.rotateRight();
         lander.stopLeftRotation();
-      } else if (angularVelocityDiff > 0.01) {
+      } else if (angularVelocityDiff > 0.001) {
         lander.rotateLeft();
         lander.stopRightRotation();
       } else {
@@ -1691,14 +1694,24 @@ const Autopilot = {
         lander.stopRightRotation();
       }
 
-      let altitude =
-        Stats.groundedHeight - Stats.position.y + Stats.landerHeight;
+      let altitude = Stats.groundedHeight - Stats.position.y;
 
-      let velocityFactor = Stats.velocity.y * 10;
-      let altitudeFactor = ((altitude + 40) / 200) ** 3;
+      let velocity = Stats.velocity.y;
+      let targetVelocity = clamp(
+        (150 / Stats.landerHeight) ** 1.2 * 0.02 * (altitude / 3.5) + 0.03,
+        0,
+        altitude > 10 ? altitude / 160 : Infinity
+      );
 
-      console.log(velocityFactor.toFixed(2), altitudeFactor.toFixed(2));
-      if (velocityFactor > altitudeFactor && Math.abs(angleInTurns) < 0.2) {
+      console.log(
+        "Adjusting velocity:",
+        velocity.toFixed(3),
+        "->",
+        targetVelocity.toFixed(3),
+        "altitude:",
+        altitude.toFixed(3)
+      );
+      if (velocity > targetVelocity && Math.abs(angleInTurns) < 0.45) {
         lander.engineOn();
       } else {
         lander.engineOff();
