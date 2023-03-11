@@ -186,8 +186,15 @@ global.autopilot = autopilot;
       checkbox.blur();
       autopilot.on = checkbox.checked;
 
+      let links = document.querySelector("#autopilot-links");
+      if (links instanceof HTMLElement) {
+        links.className = "hidden";
+      }
+
       let hint = document.querySelector("#autopilot-hint");
-      if (hint instanceof Element) hint.className = "hidden";
+      if (hint instanceof HTMLElement) {
+        hint.className = "hidden";
+      }
     });
   }
 }

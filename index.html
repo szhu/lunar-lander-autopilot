@@ -50,9 +50,10 @@
       #game-title {
         position: absolute;
         z-index: 1;
-        margin: 4px 10px;
-        font-size: clamp(6px, 3vw, 18px);
+        margin: 6px 6px;
+        font-size: clamp(6px, 2.5vw, 18px);
         -webkit-text-size-adjust: 100%;
+        text-shadow: 0 0 8px #000000aa;
       }
       #game-title:focus {
         outline: none;
@@ -93,18 +94,26 @@
         text-shadow: 0 0 20px #8eff8e, 0 0 20px #8eff8e;
       }
 
-      #autopilot-hint {
+      #autopilot-links {
         transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
       }
 
-      #autopilot-hint.hidden {
+      #autopilot-links.hidden {
         opacity: 0;
+        visibility: hidden;
+      }
+
+      #autopilot-hint {
+        transition: visibility 0.5s ease-in-out;
+      }
+
+      #autopilot-hint.hidden {
         visibility: hidden;
       }
 
       #autopilot-details {
         color: #8484f2;
-        margin-top: -1.5em;
+        margin-top: -0.7em;
         transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
         opacity: 0;
         visibility: hidden;
@@ -115,8 +124,8 @@
         text-shadow: 0 0 20px #8484f2, 0 0 10px #8484f2, 0 0 10px #8484f2;
       }
 
-      #game-title:hover #autopilot-hint.hidden + #autopilot-details,
-      #game-title:focus #autopilot-hint.hidden + #autopilot-details {
+      #game-title:hover #autopilot-links.hidden + #autopilot-details,
+      #game-title:focus #autopilot-links.hidden + #autopilot-details {
         visibility: visible;
         opacity: 1;
       }
@@ -142,37 +151,48 @@
   </head>
   <body>
     <div id="game-title" tabindex="-1">
-      <a
-        target="_blank"
-        href="https://ehmorris.com/lander/"
-        style="font-weight: bold"
-        >Edwin Morris’s Lunar Lander</a
-      >
+      <b>Edwin Morris’s Lunar Lander</b>
       <em
         >with
         <label>
           <input type="checkbox" id="autopilot" tabindex="-1" />
           <a>autopilot</a></label
         >
-        <a target="_blank" href="https://github.com/szhu/lunar-lander-autopilot"
-          >added by Sean Zhu</a
-        >
+        <span>added by Sean Zhu</span>
       </em>
-      <div id="autopilot-hint">
+      <div id="autopilot-links">
         <span style="visibility: hidden">with au</span>
-        <span>👆 press here!</span>
-        <span style="display: inline-block; width: 8em"></span>
+        <span id="autopilot-hint">👆 press here!</span>
 
+        <span style="display: inline-block; width: 2em"></span>
         <span style="display: inline-block">
           ✨
           <a target="_blank" href="https://news.ycombinator.com/show"
             >Discuss on HN</a
           >
-          ✨
+        </span>
+
+        <span style="display: inline-block; width: 1em"></span>
+
+        <span style="display: inline-block">
+          🛠️
+          <a target="_blank" href="https://github.com/szhu/lunar-lander-autopilot"
+            >GitHub</a
+          >
+        </span>
+
+        <span style="display: inline-block; width: 1em"></span>
+
+        <span style="display: inline-block">
+          ↩️
+          <a target="_blank" href="https://ehmorris.com/lander/"
+            >Original</a
+          >
+        </span>
         </span>
       </div>
       <form id="autopilot-details">
-        <span style="visibility: hidden">with</span>
+        <span style="visibility: hidden">with au</span>
         <label>
           <input type="radio" name="autopilot-mode" value="" checked />
           <a>off</a>
