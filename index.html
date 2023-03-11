@@ -128,6 +128,17 @@
         text-shadow: 0 0 20px #8484f2, 0 0 10px #8484f2, 0 0 10px #8484f2;
       }
 
+      #game-title .autopilot-link {
+        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      #game-title:hover .autopilot-link {
+        visibility: visible;
+        opacity: 1;
+      }
+
       #game-title:hover #autopilot-links.hidden + #autopilot-details,
       #game-title:focus #autopilot-links.hidden + #autopilot-details {
         visibility: visible;
@@ -169,7 +180,7 @@
         <span id="autopilot-hint">👆 press here!</span>
 
         <span style="display: inline-block; width: 2em"></span>
-        <span style="display: inline-block">
+        <span style="display: inline-block" class="autopilot-link">
           ✨
           <a target="_blank" href="https://news.ycombinator.com/show"
             >Discuss on HN</a
@@ -178,7 +189,7 @@
 
         <span style="display: inline-block; width: 1em"></span>
 
-        <span style="display: inline-block">
+        <span style="display: inline-block" class="autopilot-link">
           🛠️
           <a target="_blank" href="https://github.com/szhu/lunar-lander-autopilot"
             >GitHub</a
@@ -187,7 +198,7 @@
 
         <span style="display: inline-block; width: 1em"></span>
 
-        <span style="display: inline-block">
+        <span style="display: inline-block" class="autopilot-link">
           ↩️
           <a target="_blank" href="https://ehmorris.com/lander/"
             >Original</a
